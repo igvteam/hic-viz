@@ -5,6 +5,8 @@ import $ from '../vendor/jquery-3.3.1.slim.js'
 import Ruler from './ruler.js'
 import {TrackPair} from './trackPair.js'
 import {deleteBrowser, setCurrentBrowser} from "./createBrowser.js"
+import EventBus from "./eventBus.js";
+import HICEvent from "./hicEvent.js";
 
 // Keep in sync with juicebox.scss variables
 
@@ -333,7 +335,10 @@ function createNavBar(browser, $root) {
     browser.$menuPresentDismiss.on('click', e => browser.toggleMenu());
 
     browser.$browser_panel_delete_button = $hic_navbar_container.find('.fa-minus-circle');
-    browser.$browser_panel_delete_button.on('click', e => deleteBrowser(browser));
+    browser.$browser_panel_delete_button.on('click', e => {
+        deleteBrowser(browser)
+        EventBus.globalBus.post(HICEvent('DidDeleteBrowser', 'DidDeleteBrowser'));
+    });
 
     // Delete button is only vidible if there is more then one browser
     browser.$browser_panel_delete_button.hide();

@@ -46,6 +46,8 @@ async function createBrowser(hic_container, config, callback) {
         });
     }
 
+    EventBus.globalBus.post(HICEvent('DidCreateBrowser', browser));
+
     return browser;
 }
 
